@@ -3,19 +3,19 @@ import { Button, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
 import styles from "../config/styles";
 import { Image } from "expo-image";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../config/firebase";
 
-export default function LoginScreen({ navigation }) {
+export default function RegistroScreen({ navigation }) {
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  const fazerLogin = async () => {
-    // console.log(email, senha);
+  const cadastrarUsuario = async () => {
     try {
-      const usuario = await signInWithEmailAndPassword(auth, email, senha);
+      const usuario = await createUserWithEmailAndPassword(auth, email, senha);
+      navigation.navigate("LoginScreen");
       console.log(usuario);
-      navigation.navigate("HomeScreen");
     } catch (error) {
       console.log(error);
     }
@@ -29,11 +29,18 @@ export default function LoginScreen({ navigation }) {
           style={{ width: 200, height: 200, alignSelf: "center" }}
         />
         <Text variant="headlineLarge" style={styles.selfCenter}>
-          Faça seu login
+          Faça seu Cadastro
         </Text>
         <Text variant="bodySmall" style={styles.selfCenter}>
-          Utilize suas credenciais
+          Utilize seus dados pessoais
         </Text>
+
+        <TextInput
+          label="Nome"
+          mode="outlined"
+          value={nome}
+          onChangeText={setNome}
+        />
 
         <TextInput
           label="Email"
@@ -49,12 +56,6 @@ export default function LoginScreen({ navigation }) {
           value={senha}
           onChangeText={setSenha}
         />
-        <Button onPress={() => navigation.navigate("RecuperarSenhaScreen")}>
-          Recuperar senha
-        </Button>
-        <Button onPress={() => navigation.navigate("RegistroScreen")}>
-          Registre-se
-        </Button>
         <Button
           mode="outlined"
           // style="margin-top: 10px;" html
@@ -64,9 +65,9 @@ export default function LoginScreen({ navigation }) {
             maxWidth: 260,
             alignSelf: "flex-end",
           }}
-          onPress={fazerLogin}
+          onPress={cadastrarUsuario}
         >
-          Entrar
+          Cadastrar
         </Button>
       </View>
     </View>
