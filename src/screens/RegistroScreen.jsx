@@ -5,7 +5,7 @@ import styles from "../config/styles";
 import { Image } from "expo-image";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth, { db } from "../config/firebase";
-import { setDoc, doc, getFirestore } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 
 export default function RegistroScreen({ navigation }) {
   const [nome, setNome] = useState("");
@@ -16,13 +16,10 @@ export default function RegistroScreen({ navigation }) {
     try {
       const usuario = await createUserWithEmailAndPassword(auth, email, senha);
       const uid = await usuario.user.uid;
-      await setDoc(
-        doc(db, "usuarios", uid), 
-        {
-          nome: nome,
-          email: email,
-        }
-      );
+      await setDoc(doc(db, "usuarios", uid), {
+        nome: nome,
+        email: email,
+      });
 
       navigation.navigate("LoginScreen");
     } catch (error) {
