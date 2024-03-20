@@ -14,6 +14,9 @@ export default function RegistroScreen({ navigation }) {
   const cadastrarUsuario = async () => {
     try {
       const usuario = await createUserWithEmailAndPassword(auth, email, senha);
+      
+      
+
       navigation.navigate("LoginScreen");
       console.log(usuario);
     } catch (error) {
